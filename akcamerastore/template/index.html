@@ -1,0 +1,189 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AkCameraStore</title>
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand navbar-logo" href="#">AkCameraStore</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'store' %}">Store</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Contact</a>
+          </li>
+
+        </ul>
+        <form action="{% url 'store' %}" method="post" class="d-flex" role="search">
+          {% csrf_token %}
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search-item">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- text between nav and carousel  -->
+  <div class="container title">
+    <h5>Recently Added</h5>
+  </div>
+
+  <!-- Carousel -->
+  <div id="carouselExampleControls" class="carousel slide container" data-bs-ride="carousel">
+
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="5000">
+        <a href="{% url 'product' product.0.id %}">
+          <div class="carousel_body">
+            <div class="carousel_img">
+              <img src="{{product.0.img.url}}" alt="carousel image">
+            </div>
+            <div class="carousel_text">
+              <div class="carousel_title">
+                <p>{{product.0.name}}</p>
+              </div>
+              <!-- <div class="carousel_desc">
+                        <p>{{product.0.desc}}</p>
+                    </div> -->
+              <div class="carousel_price">
+                <span>₹{{product.0.price}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="carousel_footer"></div>
+        </a>
+      </div>
+
+      {% for i in product|slice:"1:" %}
+      <div class="carousel-item" data-bs-interval="5000">
+        <a href="{% url 'product' i.id %}">
+          <div class="carousel_body">
+            <div class="carousel_img">
+              <img src="{{i.img.url}}" alt="carousel image">
+            </div>
+            <div class="carousel_text">
+              <div class="carousel_title">
+                <p>{{i.name}}</p>
+              </div>
+              <!-- <div class="carousel_desc">
+                        <p>{{i.desc}}</p>
+                    </div> -->
+              <div class="carousel_price">
+                <span>₹{{i.price}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="carousel_footer"></div>
+        </a>
+      </div>
+
+      {% endfor %}
+
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- Camera section  -->
+  <div class="camera_section container">
+    <!-- text for camera section  -->
+    <div class="title">
+      <h5>Camera</h5>
+    </div>
+
+
+    <div class="camera-section-body">
+      {% for i in product %}
+      <div class="card">
+        <img src="{{i.img.url}}" class="camera-card-img" alt="...">
+        <div class="card-body">
+          <h6 class="card-title">{{i.name}}</h6>
+          <a href="{% url 'product' i.id %}" class="btn btn-dark stretched-link">₹{{i.price}}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+
+  <!-- Footer section  -->
+  <footer>
+    <div class="footer-body">
+      <div class="footer-logo">
+        <h2>AkCameraStore</h2>
+      </div>
+
+      <div class="footer-contactus">
+        <div class="footer-contactus-text">
+          <p>Contact Us</p>
+        </div>
+
+        <div class="footer-contactus-icons">
+          <span class="logo">
+            <a href="tel:+919373803902">
+              <img src="{% static './icons/icons8-phone-30.png' %}" alt="contact logo">
+            </a>
+          </span>
+          <span class="logo">
+            <a href="https://wa.me/919373803902">
+              <img src="{% static './icons/icons8-whatsapp.svg' %}" alt="whatsapp logo">
+            </a>
+          </span>
+          <span class="logo">
+            <a href="https://instagram.com/mrakcamerastore?igshid=YmMyMTA2M2Y=">
+              <img src="{% static './icons/icons8-instagram.svg' %}" alt="instagram logo">
+            </a>
+          </span>
+          <span class="logo">
+            <a href="https://www.facebook.com/mrakcamerastore">
+              <img src="{% static './icons/icons8-facebook.svg' %}" alt="facebook logo">
+            </a>
+          </span>
+          <span class="logo">
+            <a href="https://youtube.com/c/MrAKCameraStore">
+              <img src="{% static './icons/icons8-youtube.svg' %}" alt="youtube logo">
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
